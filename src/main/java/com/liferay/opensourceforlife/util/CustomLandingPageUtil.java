@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
@@ -337,10 +337,12 @@ public final class CustomLandingPageUtil
 		if (Validator.isNotNull(role))
 		{
 			String landingPageKey = getLandingPageKey(companyId, Boolean.FALSE, Boolean.FALSE);
+			LOG.debug("landingPageKey: "+landingPageKey);
 			if (Validator.isNotNull(landingPageKey))
 			{
 				String landingPageValue = getExpandoValue(role.getExpandoBridge(), landingPageKey,
 						Boolean.FALSE);
+				LOG.debug("landingPageValue Expando: "+landingPageValue);
 				if (Validator.isNotNull(landingPageValue))
 				{
 					landingPageFriendlyURL = landingPageValue;
@@ -472,5 +474,5 @@ public final class CustomLandingPageUtil
 		return includeSystemRole;
 	}
 
-	private static final Log LOG = LogFactoryUtil.getLog(CustomLandingPageUtil.class);
+	private static final Log LOG = LogFactory.getLog(CustomLandingPageUtil.class);
 }

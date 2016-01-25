@@ -1,8 +1,10 @@
 package com.liferay.opensourceforlife.events;
 
 import com.liferay.portal.kernel.events.Action;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.liferay.portal.kernel.notifications.ChannelHubManagerUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
@@ -31,7 +33,7 @@ public class ChannelLoginPostAction extends Action {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(
+	private static Log _log = LogFactory.getLog(
 		ChannelLoginPostAction.class);
 
 }

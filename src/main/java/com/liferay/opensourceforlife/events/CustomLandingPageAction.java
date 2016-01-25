@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.liferay.opensourceforlife.landingpage.LandingPageType;
 import com.liferay.opensourceforlife.landingpage.LandingPageTypeFactory;
@@ -145,11 +145,20 @@ public class CustomLandingPageAction extends Action
 		{
 			LandingPageType landingPageType = LandingPageTypeFactory
 					.getLandingPageTypeInstance(landingPageTypeSelection);
-			customLandingPagePath = landingPageType.getLandingPagePath(request);
+			if (LOG.isDebugEnabled())
+				LOG.debug("landingPageType: "+landingPageType.getClass().getName());
+			try{
+				customLandingPagePath = landingPageType.getLandingPagePath(request);
+			}catch (Exception e){
+				e.printStackTrace();
+				LOG.debug("Exceptiomn: "+e);
+			}
+			if (LOG.isDebugEnabled())
+				LOG.debug("customLandingPagePath: "+customLandingPagePath);
 		}
 
 		return customLandingPagePath;
 	}
 
-	private static final Log LOG = LogFactoryUtil.getLog(CustomLandingPageAction.class);
+	private static final Log LOG = LogFactory.getLog(CustomLandingPageAction.class);
 }

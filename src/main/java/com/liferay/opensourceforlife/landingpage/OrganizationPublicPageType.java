@@ -8,9 +8,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import com.liferay.opensourceforlife.util.CustomLandingPageUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -68,5 +67,5 @@ public class OrganizationPublicPageType implements LandingPageType
 		return organizationPath;
 	}
 
-	private static final Log LOG = LogFactoryUtil.getLog(OrganizationPublicPageType.class);
+	private static final Log LOG = LogFactory.getLog(OrganizationPublicPageType.class);
 }
