@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 
@@ -35,11 +36,14 @@ public class LoginPostAction extends Action {
 		throws ActionException {
 
 		try {
-			if (_log.isDebugEnabled()) {
-				_log.debug("Running " + request.getRemoteUser());
-			}
+			
 
 			HttpSession session = request.getSession();
+			
+			if (_log.isDebugEnabled()) {				
+				_log.debug("Sending message to cluster" + PortalUtil.getUser(request));
+				_log.debug("Last Path: "+session.getAttribute(WebKeys.LAST_PATH));
+			}
 
 			long companyId = PortalUtil.getCompanyId(request);
 			long userId = 0;

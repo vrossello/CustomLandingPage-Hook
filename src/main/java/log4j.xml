@@ -20,7 +20,7 @@
     </appender>
  
     <category name="com.liferay.opensourceforlife" >
-        <priority value="DEBUG" />
+        <priority value="WARN" />
     </category>
  
     <root>

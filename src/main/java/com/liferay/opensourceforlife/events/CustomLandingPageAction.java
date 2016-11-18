@@ -4,9 +4,17 @@
 
 package com.liferay.opensourceforlife.events;
 
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
+
+
 
 
 import org.apache.commons.logging.Log;
@@ -20,7 +28,9 @@ import com.liferay.portal.kernel.events.ActionException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.struts.LastPath;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
@@ -51,7 +61,7 @@ public class CustomLandingPageAction extends Action
 	}
 
 	protected void doRun(final HttpServletRequest request, final HttpServletResponse response)
-			throws SystemException, PortalException
+			throws SystemException, PortalException, IOException
 	{
 		long companyId = PortalUtil.getCompanyId(request);
 
@@ -93,6 +103,39 @@ public class CustomLandingPageAction extends Action
 						+ PortalUtil.getUser(request).getFullName());
 			}
 		} 
+		
+		if (LOG.isDebugEnabled())
+		{
+			LOG.debug("Custom Landing Page path, redirect: "+request.getParameter("redirect"));
+		}
+		
+		String redirect = ParamUtil.getString(request, "redirect");
+		if (LOG.isDebugEnabled())
+			LOG.debug("Custom Landing Page path, redirect escaped: "+redirect);
+		
+		if (Validator.isNotNull(redirect) && !redirect.trim().equals("/") ) {
+			//decodificam valor parametre
+			redirect = URLDecoder.decode(redirect, StringPool.UTF8);
+			if (redirect.charAt(0) == CharPool.SLASH) {
+				String portalURL = PortalUtil.getPortalURL(
+					request, request.isSecure());
+				
+				redirect = PortalUtil.escapeRedirect(redirect);
+				if (LOG.isDebugEnabled())
+					LOG.debug("Custom Landing Page path, redirect escaped: "+request.getParameter("redirect"));
+				if (Validator.isNotNull(portalURL)) {
+					redirect = portalURL.concat(redirect);
+				}
+			}
+			if (LOG.isDebugEnabled())
+			{
+				LOG.debug("Custom Landing Page path, redirect escaped: "+request.getParameter("redirect"));
+			}
+			response.sendRedirect(redirect);	
+		}
+
+		
+
 
 		if (Validator.isNotNull(path))
 		{
